@@ -19,10 +19,10 @@
 \usepackage{amsmath}
 \usepackage{enumitem}
 \usepackage[default,osfigures,scale=0.95]{opensans}
-\setlength{\hoffset}{-2.85cm}
-\setlength{\voffset}{-3.5cm}
-\setlength{\textwidth}{525pt}
-\setlength{\textheight}{740pt}
+\setlength{\hoffset}{-1.85cm}
+\setlength{\voffset}{-2.5cm}
+\setlength{\textwidth}{469pt}
+\setlength{\textheight}{640pt}
 \setlength{\parindent}{0cm}
 \definecolor{dark}{rgb}{0.15,0.30,0.4}
 \definecolor{light}{rgb}{0.15,0.3,0.6}
@@ -77,7 +77,9 @@
 
 % (approx. 1-2 paragraphs)
 
-In this section, provide brief details on the background information of the domain from which the project is proposed. Historical information relevant to the project should be included. It should be clear how or why a problem in the domain can or should be solved. Related academic research should be appropriately cited in this section, including why that research is relevant. Additionally, a discussion of your personal motivation for investigating a particular problem in the domain is encouraged but not required.\\
+This project aims at building a video analysis system for surveillance purposes. It basically finds and indexes the movement-events happening in the video source (assuming a fixed camera).\\
+
+%In this section, provide brief details on the background information of the domain from which the project is proposed. Historical information relevant to the project should be included. It should be clear how or why a problem in the domain can or should be solved. Related academic research should be appropriately cited in this section, including why that research is relevant. Additionally, a discussion of your personal motivation for investigating a particular problem in the domain is encouraged but not required.\\
 
 %%% Problem Statement
 
@@ -89,7 +91,9 @@ In this section, provide brief details on the background information of the doma
 
 % (approx. 1 paragraph)
 
-In this section, clearly describe the problem that is to be solved. The problem described should be well defined and should have at least one relevant potential solution. Additionally, describe the problem thoroughly such that it is clear that the problem is quantifiable (the problem can be expressed in mathematical or logical terms) , measurable (the problem can be measured by some metric and clearly observed), and replicable (the problem can be reproduced and occurs more than once).\\
+In video surveillance context, a common problem is having to explore large amounts of videos looking for a particular event, e.g., someone getting in or doing something in particular. Users have to deal with a sequential (and manual) search through the video-source (which can be many hours of stored video) and this is rather inefficient, boring and error prone.\\
+
+%In this section, clearly describe the problem that is to be solved. The problem described should be well defined and should have at least one relevant potential solution. Additionally, describe the problem thoroughly such that it is clear that the problem is quantifiable (the problem can be expressed in mathematical or logical terms) , measurable (the problem can be measured by some metric and clearly observed), and replicable (the problem can be reproduced and occurs more than once).\\
 
 %%% Datasets and Inputs
 
@@ -113,7 +117,9 @@ In this section, the dataset(s) and/or input(s) being considered for the project
 
 % (approx. 1 paragraph)
 
-In this section, clearly describe a solution to the problem. The solution should be applicable to the project domain and appropriate for the dataset(s) or input(s) given. Additionally, describe the solution thoroughly such that it is clear that the solution is quantifiable (the solution can be expressed in mathematical or logical terms) , measurable (the solution can be measured by some metric and clearly observed), and replicable (the solution can be reproduced and occurs more than once).\\
+We propose the use of unsupervised clustering techniques to find the movement-events in the movement-mask space (binary representation: 1 for pixel-moved, 0 for pixel-no-moved). The latter is computed with a foreground subtraction step resulting in a $\texttt{M}\times \texttt{N}\times \texttt{T}$ binary array, for a $\texttt{M}\times \texttt{N}$ video source with $\texttt{T}$ frames. Every movement event is represented in this 3D space as a 'volume' or 'body' (contiguous '1' cells of movements), and the unsupervised clustering algorithm is supposed to successfully segment most of them. A web application is envisaged to be built, receiving video files and delivering the list of detected events linked to the corresponding point in the original video source.\\
+
+%In this section, clearly describe a solution to the problem. The solution should be applicable to the project domain and appropriate for the dataset(s) or input(s) given. Additionally, describe the solution thoroughly such that it is clear that the solution is quantifiable (the solution can be expressed in mathematical or logical terms) , measurable (the solution can be measured by some metric and clearly observed), and replicable (the solution can be reproduced and occurs more than once).\\
 
 
 %%% Benchmark Model
