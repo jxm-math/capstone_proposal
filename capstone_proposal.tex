@@ -9,7 +9,7 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage[none]{hyphenat}
-\hypersetup{colorlinks,urlcolor=light}
+\hypersetup{colorlinks,urlcolor=light,citecolor=light}
 \usepackage{multicol}
 \usepackage{array}
 \usepackage{cancel}
@@ -30,8 +30,6 @@
 %%%%%% Document
 
 \begin{document}
-	
-	\thispagestyle{empty} % No numbering
 	
 	%%% Header
 	
@@ -77,7 +75,27 @@
 
 % (approx. 1-2 paragraphs)
 
-This project aims at building a video analysis system for surveillance purposes. It basically finds and indexes the movement-events happening in the video source (assuming a fixed camera).\\
+This project aims at building a video analysis system for surveillance purposes. It basically finds and indexes the movement-events filmed by a fixed camera.\\
+
+Video surveillance has become a major and widely used tool for multiple issues \cite{video_surveillance} and is supported by many companies \cite{video_surveillance_company_1} \cite{video_surveillance_company_2}. But the huge ammount of information which is usually dealt with has led to the need to use Machine Learning techniques to extract patterns, predictions and other refined information. This approach is being implemented \cite{ml_company_1} and there is much work for Machine Learning engineers to do in this field. 
+
+\begingroup
+\renewcommand{\section}[2]{}%
+\begin{thebibliography}{}
+	\bibitem{video_surveillance}
+	\href{https://en.wikipedia.org/wiki/Surveillance#Cameras}{Wikipedia - Surveillance / Cameras}
+	
+	\bibitem{video_surveillance_company_1}
+	\href{https://www.videosurveillance.com/}{VideoSurveillance.com}
+	
+	\bibitem{video_surveillance_company_2}
+	\href{http://www.tyco.com/}{Tyco}
+	
+	\bibitem{ml_company_1}
+	\href{http://briefcam.com/}{Briefcam}
+	
+\end{thebibliography}
+\endgroup
 
 %In this section, provide brief details on the background information of the domain from which the project is proposed. Historical information relevant to the project should be included. It should be clear how or why a problem in the domain can or should be solved. Related academic research should be appropriately cited in this section, including why that research is relevant. Additionally, a discussion of your personal motivation for investigating a particular problem in the domain is encouraged but not required.\\
 
@@ -105,7 +123,29 @@ In video surveillance context, a common problem is having to explore large amoun
 
 % (approx. 2-3 paragraphs)
 
-In this section, the dataset(s) and/or input(s) being considered for the project should be thoroughly described, such as how they relate to the problem and why they should be used. Information such as how the dataset or input is (was) obtained, and the characteristics of the dataset or input, should be included with relevant references and citations as necessary It should be clear how the dataset(s) or input(s) will be used in the project and whether their use is appropriate given the context of the problem.\\
+The datasets and inputs for this project will be obtained after some video preprocessing made on sample videos. The selected videos are located in \href{https://github.com/jxm-math/capstone_project/tree/master/data/unprocessed_videos}{capstone\_project/data/unprocessed\_videos} and they have been downloaded from \href{http://www.viratdata.org/}{VIRAT Video Dataset} \cite{virat}. The video preprocessing is carried out by the Python files {\color{red}XXXXXXXXX} and is not part of the Machine Learning Project.\\
+
+The video preprocessing takes as input a \texttt{.avi} $\texttt{M}\times \texttt{N}$ pixels video and a \texttt{.png} $\texttt{M}\times \texttt{N}$ pixels picture (\textit{background}). For each frame in the video, the frame and the background are compared pixel-wise, and the difference is recorded in a $\texttt{M}\times \texttt{N}$ binary array, where $1$ denotes difference (above some threshold) and $0$ denotes no difference.
+
+\begin{center}
+	\includegraphics[scale=1]{cpj_1.pdf}
+\end{center}
+
+If the video has $\texttt{T}$ frames, then the video preprocessing gives as output a $\texttt{M}\times \texttt{N}\times \texttt{T}$ binary array, which is supposed to capture the movement in our scene and that will be the primary input for the project. These arrays are located in {\color{red}XXXXXXXXX}
+
+\begin{center}
+	\includegraphics[scale=0.8]{cpj_2.pdf}
+\end{center}
+
+\begingroup
+\renewcommand{\section}[2]{}%
+\begin{thebibliography}{}
+	\bibitem{virat}
+	\textbf{A Large-scale Benchmark Dataset for Event Recognition in Surveillance Video}, Sangmin Oh, Anthony Hoogs, Amitha Perera, Naresh Cuntoor, Chia-Chih Chen, Jong Taek Lee, Saurajit Mukherjee, J.K. Aggarwal, Hyungtae Lee, Larry Davis, Eran Swears, Xiaoyang Wang, Qiang Ji, Kishore Reddy, Mubarak Shah, Carl Vondrick, Hamed Pirsiavash, Deva Ramanan, Jenny Yuen, Antonio Torralba, Bi Song, Anesco Fong, Amit Roy-Chowdhury, and Mita Desai, \textit{Proceedings of IEEE Comptuer Vision and Pattern Recognition (CVPR), 2011}.
+\end{thebibliography}
+\endgroup
+
+%In this section, the dataset(s) and/or input(s) being considered for the project should be thoroughly described, such as how they relate to the problem and why they should be used. Information such as how the dataset or input is (was) obtained, and the characteristics of the dataset or input, should be included with relevant references and citations as necessary It should be clear how the dataset(s) or input(s) will be used in the project and whether their use is appropriate given the context of the problem.\\
 
 %%% Solution Statement
 
@@ -117,7 +157,15 @@ In this section, the dataset(s) and/or input(s) being considered for the project
 
 % (approx. 1 paragraph)
 
-We propose the use of unsupervised clustering techniques to find the movement-events in the movement-mask space (binary representation: 1 for pixel-moved, 0 for pixel-no-moved). The latter is computed with a foreground subtraction step resulting in a $\texttt{M}\times \texttt{N}\times \texttt{T}$ binary array, for a $\texttt{M}\times \texttt{N}$ video source with $\texttt{T}$ frames. Every movement event is represented in this 3D space as a 'volume' or 'body' (contiguous '1' cells of movements), and the unsupervised clustering algorithm is supposed to successfully segment most of them. A web application is envisaged to be built, receiving video files and delivering the list of detected events linked to the corresponding point in the original video source.\\
+We propose the use of unsupervised clustering techniques to find the movement-events in the movement-mask space (binary representation: 1 for pixel-moved, 0 for pixel-no-moved). The latter is computed with a foreground subtraction step resulting in a $\texttt{M}\times \texttt{N}\times \texttt{T}$ binary array, for a $\texttt{M}\times \texttt{N}$ video source with $\texttt{T}$ frames. 
+
+
+
+Every movement event is represented in this 3D space as a 'volume' or 'body' (contiguous '1' cells of movements), and the unsupervised clustering algorithm is supposed to successfully segment most of them. 
+
+
+
+A web application is envisaged to be built, receiving video files and delivering the list of detected events linked to the corresponding point in the original video source.\\
 
 %In this section, clearly describe a solution to the problem. The solution should be applicable to the project domain and appropriate for the dataset(s) or input(s) given. Additionally, describe the solution thoroughly such that it is clear that the solution is quantifiable (the solution can be expressed in mathematical or logical terms) , measurable (the solution can be measured by some metric and clearly observed), and replicable (the solution can be reproduced and occurs more than once).\\
 
