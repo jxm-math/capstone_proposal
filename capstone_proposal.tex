@@ -48,7 +48,7 @@
 	\begin{minipage}[t]{7cm}
 		\flushleft
 		Juan José Madrigal Martínez\\
-		January 10, 2017\\
+		January 18, 2017\\
 	\end{minipage}
 	\hfill
 	%%% Contact
@@ -75,9 +75,11 @@
 
 % (approx. 1-2 paragraphs)
 
-This project aims at building a video analysis system for surveillance purposes. It basically finds and indexes the movement-events filmed by a fixed camera.\\
+This project aims at building a video analysis system for surveillance purposes. It basically finds and indexes the movement events filmed by a fixed camera.\\
 
-Video surveillance has become a major and widely used tool for multiple issues \cite{video_surveillance} and is supported by many companies \cite{video_surveillance_company_1} \cite{video_surveillance_company_2}. But the huge ammount of information which is usually dealt with has led to the need to use Machine Learning techniques to extract patterns, predictions and other refined information. This approach is being implemented \cite{ml_company_1} and there is much work for Machine Learning engineers to do in this field. 
+Video surveillance has become a major and widely used tool for multiple issues \cite{video_surveillance} and is supported by many companies \cite{video_surveillance_company_1} \cite{video_surveillance_company_2}. But the huge ammount of information which is usually dealt with has led to the need to use Machine Learning techniques to extract patterns, predictions and other refined information. This approach is being implemented \cite{ml_company_1} and there is much work for Machine Learning engineers to do in this field. \\
+
+An efficient implementation of Machine Learning techniques to video surveillance would prevent users from dealing with a sequential (and manual) search through the (perhaps many hours long) video source, which is rather inefficient, boring and error prone, thus providing a major tool for a wide range of purposes.
 
 \begingroup
 \renewcommand{\section}[2]{}%
@@ -109,7 +111,7 @@ Video surveillance has become a major and widely used tool for multiple issues \
 
 % (approx. 1 paragraph)
 
-In video surveillance context, a common problem is having to explore large amounts of videos looking for a particular event, e.g., someone getting in or doing something in particular. Users have to deal with a sequential (and manual) search through the video-source (which can be many hours of stored video) and this is rather inefficient, boring and error prone.\\
+To apply unsupervised Machine Learning clustering algorithms to detect and quantify the movement events filmed by a fixed camera. The algorithms are to be applied to a tridimensional binary array obtained from the original video after some careful video-preprocessing (see below). Further refinements may also be tackled, such as finding time-parametric curves accurately fitting each movement event. \\
 
 %In this section, clearly describe the problem that is to be solved. The problem described should be well defined and should have at least one relevant potential solution. Additionally, describe the problem thoroughly such that it is clear that the problem is quantifiable (the problem can be expressed in mathematical or logical terms) , measurable (the problem can be measured by some metric and clearly observed), and replicable (the problem can be reproduced and occurs more than once).\\
 
@@ -157,15 +159,9 @@ If the video has $\texttt{T}$ frames, then the video preprocessing gives as outp
 
 % (approx. 1 paragraph)
 
-We propose the use of unsupervised clustering techniques to find the movement-events in the movement-mask space (binary representation: 1 for pixel-moved, 0 for pixel-no-moved). The latter is computed with a foreground subtraction step resulting in a $\texttt{M}\times \texttt{N}\times \texttt{T}$ binary array, for a $\texttt{M}\times \texttt{N}$ video source with $\texttt{T}$ frames. 
 
 
-
-Every movement event is represented in this 3D space as a 'volume' or 'body' (contiguous '1' cells of movements), and the unsupervised clustering algorithm is supposed to successfully segment most of them. 
-
-
-
-A web application is envisaged to be built, receiving video files and delivering the list of detected events linked to the corresponding point in the original video source.\\
+We propose the use of \href{http://scikit-learn.org/stable/modules/clustering.html#dbscan}{DBSCAN clustering algorithm}, which is implemented in \href{http://scikit-learn.org/}{SciKitLearn}. This clustering algorithm is well-suited for our generic clusters, which are uneven in size and non-convex.\\
 
 %In this section, clearly describe a solution to the problem. The solution should be applicable to the project domain and appropriate for the dataset(s) or input(s) given. Additionally, describe the solution thoroughly such that it is clear that the solution is quantifiable (the solution can be expressed in mathematical or logical terms) , measurable (the solution can be measured by some metric and clearly observed), and replicable (the solution can be reproduced and occurs more than once).\\
 
@@ -180,7 +176,11 @@ A web application is envisaged to be built, receiving video files and delivering
 
 % (approximately 1-2 paragraphs)
 
-In this section, provide the details for a benchmark model or result that relates to the domain, problem statement, and intended solution. Ideally, the benchmark model or result contextualizes existing methods or known information in the domain and problem given, which could then be objectively compared to the solution. Describe how the benchmark model or result is measurable (can be measured by some metric and clearly observed) with thorough detail.\\
+\begin{itemize}
+	\item \href{http://www.wisdom.weizmann.ac.il/~vision/VideoAnalysis/Demos/SpaceTimeActions/SpaceTimeActions_pami07.pdf}{Actions as Space-Time Shapes}
+\end{itemize} 
+
+%In this section, provide the details for a benchmark model or result that relates to the domain, problem statement, and intended solution. Ideally, the benchmark model or result contextualizes existing methods or known information in the domain and problem given, which could then be objectively compared to the solution. Describe how the benchmark model or result is measurable (can be measured by some metric and clearly observed) with thorough detail.\\
 
 %%% Evaluation Metrics
 
@@ -192,7 +192,20 @@ In this section, provide the details for a benchmark model or result that relate
 
 % (approx. 1-2 paragraphs)
 
-In this section, propose at least one evaluation metric that can be used to quantify the performance of both the benchmark model and the solution model. The evaluation metric(s) you propose should be appropriate given the context of the data, the problem statement, and the intended solution. Describe how the evaluation metric(s) are derived and provide an example of their mathematical representations (if applicable). Complex evaluation metrics should be clearly defined and quantifiable (can be expressed in mathematical or logical terms).\\
+The metric(s) used to estimate the quality of our clustering will comprise
+
+\begin{itemize}
+	\item Homogeneity
+	\item Completeness
+	\item V-measure
+	\item Adjusted Rand Index
+	\item Adjusted Mutual Information
+	\item Silhouette Coefficient
+\end{itemize} 
+
+The weight given to each measure will be assigned by refined cross-validation process.\\
+
+%In this section, propose at least one evaluation metric that can be used to quantify the performance of both the benchmark model and the solution model. The evaluation metric(s) you propose should be appropriate given the context of the data, the problem statement, and the intended solution. Describe how the evaluation metric(s) are derived and provide an example of their mathematical representations (if applicable). Complex evaluation metrics should be clearly defined and quantifiable (can be expressed in mathematical or logical terms).\\
 
 %%% Project Design
 
