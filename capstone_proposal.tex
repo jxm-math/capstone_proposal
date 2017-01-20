@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Personal Cover Letter for Udacity - Juan José Madrigal
+%Capstone Proposal for Udacity - Juan José Madrigal
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%% Packages
@@ -48,7 +48,7 @@
 	\begin{minipage}[t]{7cm}
 		\flushleft
 		Juan José Madrigal Martínez\\
-		January 18, 2017\\
+		January 20, 2017\\
 	\end{minipage}
 	\hfill
 	%%% Contact
@@ -176,9 +176,15 @@ We propose the use of \href{http://scikit-learn.org/stable/modules/clustering.ht
 
 % (approximately 1-2 paragraphs)
 
-\begin{itemize}
-	\item \href{http://www.wisdom.weizmann.ac.il/~vision/VideoAnalysis/Demos/SpaceTimeActions/SpaceTimeActions_pami07.pdf}{Actions as Space-Time Shapes}
-\end{itemize} 
+One may refer to \href{http://www.wisdom.weizmann.ac.il/~vision/VideoAnalysis/Demos/SpaceTimeActions/SpaceTimeActions_pami07.pdf}{Actions as Space-Time Shapes} \cite{benchmark} for a remarkable study in this field. 
+
+\begingroup
+\renewcommand{\section}[2]{}%
+\begin{thebibliography}{}
+	\bibitem{benchmark}
+	\href{http://www.wisdom.weizmann.ac.il/~vision/SpaceTimeActions.html}{http://www.wisdom.weizmann.ac.il/~vision/SpaceTimeActions.html}
+\end{thebibliography}
+\endgroup
 
 %In this section, provide the details for a benchmark model or result that relates to the domain, problem statement, and intended solution. Ideally, the benchmark model or result contextualizes existing methods or known information in the domain and problem given, which could then be objectively compared to the solution. Describe how the benchmark model or result is measurable (can be measured by some metric and clearly observed) with thorough detail.\\
 
@@ -217,7 +223,18 @@ The weight given to each measure will be assigned by refined cross-validation pr
 
 % (approx. 1 page)
 
-In this final section, summarize a theoretical workflow for approaching a solution given the problem. Provide thorough discussion for what strategies you may consider employing, what analysis of the data might be required before being used, or which algorithms will be considered for your implementation. The workflow and discussion that you provide should align with the qualities of the previous sections. Additionally, you are encouraged to include small visualizations, pseudocode, or diagrams to aid in describing the project design, but it is not required. The discussion should clearly outline your intended workflow of the capstone project.\\
+A theoretical workflow for approaching a solution would include
+
+\begin{enumerate}
+	\item To apply the video preprocessing techniques to the selected videos to get the tridimensional binary arrays, which are the main input for our Machine Learning work.
+	\item To apply \href{http://scikit-learn.org/stable/modules/clustering.html#dbscan}{DBSCAN clustering algorithm} to each array for a first contact with the potential results.
+	\item To compare the previous results with a manual detection and indexing for a small set of training videos. This may lead to a major refinement of the main algorithms. Together with this manual checking, the metrics mentioned above will be used and compared with the latter, thus finding which metrics work best for our video surveillance context.
+	\item To apply the refined algorithms and selected metrics to a large variety of videos. Further tuning may be implemented. 
+	\item To provide code for spatial visualisation of all the previous processes.
+	\item From all the extracted data, to make conclussions about the success of our study and devise new ways or fields for further work.
+\end{enumerate}
+
+%In this final section, summarize a theoretical workflow for approaching a solution given the problem. Provide thorough discussion for what strategies you may consider employing, what analysis of the data might be required before being used, or which algorithms will be considered for your implementation. The workflow and discussion that you provide should align with the qualities of the previous sections. Additionally, you are encouraged to include small visualizations, pseudocode, or diagrams to aid in describing the project design, but it is not required. The discussion should clearly outline your intended workflow of the capstone project.\\
 
 
 
