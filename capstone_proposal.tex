@@ -48,7 +48,7 @@
 	\begin{minipage}[t]{7cm}
 		\flushleft
 		Juan José Madrigal Martínez\\
-		January 20, 2017\\
+		January 30, 2017\\
 	\end{minipage}
 	\hfill
 	%%% Contact
@@ -133,11 +133,13 @@ The video preprocessing takes as input a \texttt{.avi} $\texttt{M}\times \texttt
 	\includegraphics[scale=1]{cpj_1.pdf}
 \end{center}
 
-If the video has $\texttt{T}$ frames, then the video preprocessing gives as output a $\texttt{M}\times \texttt{N}\times \texttt{T}$ binary array, which is supposed to capture the movement in our scene and that will be the primary input for the project. These arrays are located in \href{https://github.com/jxm-math/capstone_project/tree/master/data/tridimensional_binary_arrays}{capstone\_project/data/tridimensional\_binary\_arrays}.
+If the video has $\texttt{T}$ frames, then the video preprocessing gives as output a $\texttt{M}\times \texttt{N}\times \texttt{T}$ binary array, which is supposed to capture the movement in our scene and that will be the primary input for the project. These arrays are saved not as arrays as such but as \texttt{.avi} files, and are located in \href{https://github.com/jxm-math/capstone_project/tree/master/data/processed_videos}{capstone\_project/data/processed\_videos}.\\
 
 \begin{center}
 	\includegraphics[scale=0.8]{cpj_2.pdf}
 \end{center}
+
+The total ammount of data in this latter folder sums up to 10 videos (and a exploratory \texttt{video1.avi}) whose duration ranges between half and three minutes. This should be enough to tune our algorithm (see below) for the purposes of similar (fixed-camera) videos.
 
 \begingroup
 \renewcommand{\section}[2]{}%
@@ -159,9 +161,44 @@ If the video has $\texttt{T}$ frames, then the video preprocessing gives as outp
 
 % (approx. 1 paragraph)
 
-
-
 We propose the use of \href{http://scikit-learn.org/stable/modules/clustering.html#dbscan}{DBSCAN clustering algorithm}, which is implemented in \href{http://scikit-learn.org/}{SciKitLearn}. This clustering algorithm is well-suited for our generic clusters, which are uneven in size and non-convex.\\
+
+DBSCAN clustering algorithm (\textit{Density-based spatial clustering of applications with noise}) takes primarily two parameters
+
+\begin{itemize}
+	\item \texttt{min\_samples}, integer
+	\item \texttt{eps}, float
+\end{itemize}
+
+and classifies the points in a metric space into three groups
+
+\begin{itemize}
+	\item \textbf{Core points}: points whose \texttt{eps}-neighbourhood contains at least \texttt{min\_samples} points
+	\item \textbf{Reachable points}: points that are not core points themselves, but that cointain some core point in their \texttt{eps}-neighbourhood
+	\item \textbf{Outliers or noise}: points that are not core points nor reachable points
+\end{itemize}
+
+\begin{center}
+	\includegraphics[scale=1.2]{dbscan_illustration.pdf}
+\end{center}
+
+Each group of mutually \texttt{eps}-path-connected core points with the associated reachable points forms a cluster. The way in which the algorithm is implemented may lead to some indeterminisms, such as reachable points reached from two different clusters, but the number of clusters and their intrinsic shape are well-determined.\\
+
+This algorithm has some major advantages that make it well-suited for our clustering problem:
+
+\begin{itemize}
+	\item The number of expected clusters is not to be specified. This is crucial, since our goal is to determine the number of clusters / movement-events
+	\item The clusters may be of any shape
+	\item The algorithm deals well with noise (our arrays, generated from video processing, always have noise)
+\end{itemize} 
+
+\begingroup
+\renewcommand{\section}[2]{}%
+\begin{thebibliography}{}
+	\bibitem{dbscan_wikipedia}
+	\href{https://en.wikipedia.org/wiki/DBSCAN}{DBScan - Wikipedia}
+\end{thebibliography}
+\endgroup
 
 %In this section, clearly describe a solution to the problem. The solution should be applicable to the project domain and appropriate for the dataset(s) or input(s) given. Additionally, describe the solution thoroughly such that it is clear that the solution is quantifiable (the solution can be expressed in mathematical or logical terms) , measurable (the solution can be measured by some metric and clearly observed), and replicable (the solution can be reproduced and occurs more than once).\\
 
@@ -176,13 +213,15 @@ We propose the use of \href{http://scikit-learn.org/stable/modules/clustering.ht
 
 % (approximately 1-2 paragraphs)
 
-One may refer to \href{http://www.wisdom.weizmann.ac.il/~vision/VideoAnalysis/Demos/SpaceTimeActions/SpaceTimeActions_pami07.pdf}{Actions as Space-Time Shapes} \cite{benchmark} for a remarkable study in this field. 
+A major Benchmark Model may be found at \href{http://www.wisdom.weizmann.ac.il/~vision/VideoAnalysis/Demos/SpaceTimeActions/SpaceTimeActions_pami07.pdf}{Actions as Space-Time Shapes}.\\
+
+This work deals with the recognition of activities in a single movement-event. For this movement-event to be analysed, spectral clustering methods are used \cite{spectral_clustering_wikipedia}. The performance is measured in terms of misclassifications (2.17\%, 7.91\% and 36.40\% for different methods). 
 
 \begingroup
 \renewcommand{\section}[2]{}%
 \begin{thebibliography}{}
-	\bibitem{benchmark}
-	\href{http://www.wisdom.weizmann.ac.il/~vision/SpaceTimeActions.html}{http://www.wisdom.weizmann.ac.il/~vision/SpaceTimeActions.html}
+	\bibitem{spectral_clustering_wikipedia}
+	\href{https://en.wikipedia.org/wiki/Spectral_clustering}{Spectral Clustering - Wikipedia}
 \end{thebibliography}
 \endgroup
 
@@ -198,7 +237,9 @@ One may refer to \href{http://www.wisdom.weizmann.ac.il/~vision/VideoAnalysis/De
 
 % (approx. 1-2 paragraphs)
 
-The metric(s) used to estimate the quality of our clustering will comprise
+The direct metric to tune the main parameters of DBScan (\texttt{eps} and \texttt{min\_samples}) will be the Sum of Square Errors according to the expected value of clusters, which is known on beforehand for each of the training videos.\\
+
+Once the algorithm is accurately tuned, the metric(s) used to estimate the quality of our clustering will comprise
 
 \begin{itemize}
 	\item Homogeneity
@@ -208,8 +249,6 @@ The metric(s) used to estimate the quality of our clustering will comprise
 	\item Adjusted Mutual Information
 	\item Silhouette Coefficient
 \end{itemize} 
-
-The weight given to each measure will be assigned by refined cross-validation process.\\
 
 %In this section, propose at least one evaluation metric that can be used to quantify the performance of both the benchmark model and the solution model. The evaluation metric(s) you propose should be appropriate given the context of the data, the problem statement, and the intended solution. Describe how the evaluation metric(s) are derived and provide an example of their mathematical representations (if applicable). Complex evaluation metrics should be clearly defined and quantifiable (can be expressed in mathematical or logical terms).\\
 
